@@ -1,0 +1,12 @@
+html, body, p, ul, li, h1, h2, dialog {
+    margin: 0;
+    padding: 0;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+[hidden] {
+    display: none!important;
+}

@@ -1,0 +1,200 @@
+:root{
+    --color-primary: #000;
+    --color-secondary: #fff;
+    
+    --font-size-base: 1.15vw;
+    --font-size-title: 3vw;
+    --font-size-subtitle: 2vw;
+    --font-size-modal-title: 1.25vw;
+}
+
+h1 {
+    font-size: var(--font-size-title);
+}
+
+h2 {
+    font-size: var(--font-size-subtitle);
+}
+
+dialog {
+    position: absolute;
+    width: max-content;
+    user-select: none;
+}
+
+dialog > header {
+    height: 5vh;
+    user-select: none;
+    display: flex;
+    place-items: center;
+    justify-content: space-between;
+    padding-left: .5vw;
+}
+
+dialog > header > nav {
+    column-gap: 0;
+    display: flex;
+}
+
+dialog > header > nav > button {
+    width: 5vh;
+    height: 5vh;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+dialog > header > nav > button.close {
+    background-color: red;
+}
+
+dialog > header > nav > button.minimize {
+    background-color: yellow;
+}
+
+dialog > header > nav > button.maximize {
+    background-color: blue;
+    color: white;
+}
+
+dialog > section {
+    padding: .5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2vh;
+}
+
+dialog > header > h2 {
+    font-size: var(--font-size-modal-title);
+    margin-right: 1vw;
+}
+
+dialog > section > nav > ul {
+    display: flex;
+    flex-direction: row;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    font-size: var(--font-size-base);
+    overflow: hidden;
+}
+
+/* body > header {
+    padding: 1vh 0;
+    margin-top: 3vh;
+    margin-inline: 22.5%;
+} */
+
+body > :where(header,footer) {
+    width: 56vw;
+    margin-inline: auto;
+    padding: 4vh 0;
+}
+
+/* footer {
+    padding: 1vh 0;
+    margin-inline: 22.5%;
+    margin-bottom: 3vh;
+} */
+
+section[aria-labelledby] {
+    background: #FFF;
+    aspect-ratio: 16/9;
+    width: 50%;
+    position: absolute;
+    inset: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4vh 3vw;
+    border: 1px solid #000;
+}
+
+section[aria-labelledby="accueil"] {
+    row-gap: 1.5vh;
+}
+
+section[aria-labelledby="accueil"] ul {
+    display: flex;
+    column-gap: 1vw;
+}
+
+
+dialog.select-difficulty > section > form > nav > ul {
+    display: flex;
+    flex-direction: row;
+}
+
+dialog.select-difficulty > section > form > nav > ul > li > label > input {
+    pointer-events: none;
+    display: none;
+}
+
+dialog.select-difficulty > section > form > nav > ul > li > label > button {
+    pointer-events: none;
+    background: transparent;
+}
+
+dialog.select-difficulty > section > form > nav > ul > li > label > input[type="radio"]:checked + button {
+    background: #0004;
+}
+
+dialog.select-difficulty > section > form {
+    display: flex;
+    flex-direction: column;
+}
+
+dialog.select-difficulty > section > form > label {
+    display: flex;
+    flex-direction: column;
+}
+
+section[aria-labelledby="jouer"] {
+    row-gap: 3vh;
+    user-select: none;
+}
+
+section[aria-labelledby="jouer"] > section {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10vh;
+}
+
+section[aria-labelledby="jouer"] > section > p > output[name="word"] {
+    font-size: var(--font-size-subtitle);
+    line-height: 3;
+}
+
+section[aria-labelledby="jouer"] > section > input {
+    width: 100%;
+    height: 5vh;
+    border: none;
+    border-bottom: 1px solid #000;
+    background: transparent;
+    font-size: var(--font-size-base);
+}
+
+section[aria-labelledby="jouer"] > aside {
+    display: flex;
+    flex-direction: row;
+    column-gap: 5vw;
+}
+
+.animation-plus {
+    position: absolute;
+    font-size: 40%;
+}
+
+section[aria-labelledby="fin"] {
+    row-gap: 3vh;
+}
+
+section[aria-labelledby="fin"] > nav > ul {
+    display: flex;
+    column-gap: 2vw;
+}

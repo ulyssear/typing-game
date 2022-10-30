@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simple typing game built with javascript">
+    <title>Document</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="app.css">
+    
+    <script src="app.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Typing game</h1>
+    </header>
+
+    <main>
+
+        <section aria-labelledby="accueil">
+            <h2 id="accueil">Menu principal</h2>
+            <nav>
+                <ul>
+                    <li><a href="javascript:void(0)" aria-labelledby="jouer">Jouer</a></li>
+                </ul>
+            </nav>
+        </section>
+
+        <section aria-labelledby="jouer" hidden>
+            <h2 id="jouer" hidden>Jouer</h2>
+            <section>
+                <p>Ecrivez le mot suivant en <output name="time"></output> secondes :<br>
+                    <output name="word"></output></p>
+                <input type="text" name="user-word" placeholder="Commencez à écrire...">
+                <output name="status"></output>
+            </section>
+            <aside>
+                <p>Temps: 
+                    <output name="time-remaining"></output>
+                    secondes
+                </p>
+                <p>Niveau: 
+                    <output name="level"></output>
+                </p>
+                <p>Score: 
+                    <output name="score"></output>
+                </p>
+            </aside>
+        </section>
+
+        <section aria-labelledby="fin" hidden>
+            <h2 id="fin">Fin de partie</h2>
+            <nav>
+                <ul>
+                    <li><a href="javascript:void(0)" data-name="quit">Retour sur le menu</a></li>
+                    <li><a href="javascript:void(0)" data-name="replay">Rejouer</a></li>
+                </ul>
+            </nav>
+        </section>
+
+        <section aria-labelledby="stats" hidden>
+            <h2 id="stats">Statistiques</h2>
+        </section>
+    </main>
+
+    <footer>
+        <p>Fait par Ulysse ARNAUD</p>
+    </footer>
+
+    <dialog class="select-difficulty">
+        <header>
+            <h2>Choisissez une difficulté</h2>
+            <nav>
+                <button class="maximize" hidden>[]</button>
+                <button class="minimize">_</button>
+                <button class="close">X</button>
+            </nav>
+        </header>
+        <section>
+            <form action="javascript:void(0)">
+                <nav>
+                    <ul>
+                        <li>
+                            <label>
+                                <input type="radio" name="difficulty" value="facile">
+                                <button>Facile</button>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="radio" name="difficulty" value="moyen">
+                                <button>Moyen</button>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="radio" name="difficulty" value="difficile">
+                                <button>Difficile</button>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="radio" name="difficulty" value="personnalise">
+                                <button>Personnalisé</button>
+                            </label>
+                        </li>
+                    </ul>
+                </nav>
+                <label>
+                    <span>Temps au démmarage</span>
+                    <input type="number" name="start-time" value="16" min="1" max="60">
+                </label>
+                <label>
+                    <span>Temps minimal</span>
+                    <input type="number" name="min-time" value="3" min="1" max="60">
+                </label>
+                <label>
+                    <span>Mots par niveau</span>
+                    <input type="number" name="words-per-level" value="8" min="1" max="100">
+                </label>
+                <button>Commencer la partie</button>
+            </form>
+        </section>
+    </dialog>
+
+    <dialog class="confirm-quit">
+        <header>
+            <h2>Etes-vous sûr de quitter ?</h2>
+            <nav>
+                <button class="maximize" hidden>[]</button>
+                <button class="minimize">_</button>
+                <button class="close">X</button>
+            </nav>
+        </header>
+        <section>
+            <nav>
+                <ul>
+                    <li><button data-name="quit">Oui</button></li>
+                    <li><button data-name="cancel">Non</button></li>
+                </ul>
+            </nav>
+        </section>
+    </dialog>
+</body>
+</html>
