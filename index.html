@@ -30,6 +30,9 @@
         <section aria-labelledby="jouer" hidden>
             <h2 id="jouer" hidden>Jouer</h2>
             <section>
+                <aside>
+                    <button data-name="quit-game">Quitter</button>
+                </aside>
                 <p>Ecrivez le mot suivant en <output name="time"></output> secondes :<br>
                     <output name="word"></output></p>
                 <input type="text" name="user-word" placeholder="Commencez à écrire...">
@@ -136,8 +139,8 @@
         <section>
             <nav>
                 <ul>
-                    <li><button data-name="quit">Oui</button></li>
-                    <li><button data-name="cancel">Non</button></li>
+                    <li><button data-name="no" autofocus>Non</button></li>
+                    <li><button data-name="yes">Oui</button></li>
                 </ul>
             </nav>
         </section>

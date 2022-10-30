@@ -159,6 +159,18 @@ section[aria-labelledby="jouer"] {
     user-select: none;
 }
 
+section[aria-labelledby="jouer"] > section button[data-name="quit-game"] {
+    --red: #f00;
+    background: #fff;
+    border: 1px solid var(--red);
+    color: var(--red);
+    padding: .5rem 1rem;
+    border-radius: .5rem;
+    cursor: pointer;
+    position: absolute;
+    right: 3vw;
+}
+
 section[aria-labelledby="jouer"] > section {
     display: flex;
     flex-direction: column;
@@ -197,4 +209,14 @@ section[aria-labelledby="fin"] {
 section[aria-labelledby="fin"] > nav > ul {
     display: flex;
     column-gap: 2vw;
+}
+
+dialog.confirm-quit > section > nav > ul {
+    display: flex;
+    column-gap: 2vw;
+}
+
+dialog.confirm-quit > section > nav > ul > li > button {
+    padding: .5rem 1rem;
+    cursor: pointer;
 }

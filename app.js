@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    const globals = {};
+
     const SECTIONS = {
         accueil: document.querySelector('section[aria-labelledby="accueil"]'),
         jouer: document.querySelector('section[aria-labelledby="jouer"]'),
@@ -187,12 +189,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 'min-time': +data.get('min-time'),
                 'words-per-level': +data.get('words-per-level'),
             };
-            console.log({form})
-            console.table(config)
             dialog.close();
             SECTIONS.accueil.hidden = true;
             SECTIONS.jouer.hidden = false;
             await startGame(config);
+        });
+    })();
+
+    // Confirm quit dialog events
+    (function() {
+        const dialog = DIALOGS['confirm-quit'];
+        const buttons = {
+            no: dialog.querySelector('button[data-name="no"]'),
+            yes: dialog.querySelector('button[data-name="yes"]')
+        }
+        buttons.no.addEventListener('click', function() {
+            dialog.close();
+        });
+        buttons.yes.addEventListener('click', function() {
+            dialog.close();
+            globals.gameOver();
         });
     })();
 
@@ -216,6 +232,14 @@ document.addEventListener('DOMContentLoaded', function() {
             links[i].addEventListener('click', callbacks[links[i].dataset.name]);
         }
 
+    })();
+
+    // Jouer events
+    (function() {
+        const quit = SECTIONS.jouer.querySelector('button[data-name="quit-game"]');
+        quit.addEventListener('click', function() {
+            displayModal('confirm-quit');
+        });
     })();
 
     async function startGame({
@@ -276,9 +300,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateOutput('score', score);
         updateOutput('level', level);
 
-        // add event listener to escape game
-        window.addEventListener('keydown', onWindowKeyDown);
-
         // A round is a word to type
         function round() {
             let time_remaining = time;
@@ -329,6 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
             section.hidden = true;
             SECTIONS.fin.hidden = false;
         }
+        globals.gameOver = gameOver;
 
         function performAnimation(name) {
             const animations = {
@@ -371,12 +393,5 @@ document.addEventListener('DOMContentLoaded', function() {
         dialog.style.top = (window.innerHeight - dialog.offsetHeight) / 2.5 + 'px';
         dialog.style.left = (window.innerWidth - dialog.offsetWidth) / 2.5 + 'px';
         dialog.showModal();
-    }
-    
-    function onWindowKeyDown(event) {
-        console.log(event.key)
-        if (event.key === 'Escape') {
-            displayModal('confirm-quit');
-        }
     }
 });
