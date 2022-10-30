@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let interval_time_remaining;
 
-        await fetch('/texts/text_1.txt')
+        await fetch('./texts/text_1.txt')
             .then(response => response.text())
             .then(text => {
                 text = text
