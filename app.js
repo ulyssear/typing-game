@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
         'time': document.querySelector('output[name="time"]'),
         'time-remaining': document.querySelector('output[name="time-remaining"]'),
         'level': document.querySelector('output[name="level"]'),
-        'word': document.querySelector('output[name="word"]')
+        'word': document.querySelector('output[name="word"]'),
+        'final-score': document.querySelector('output[name="final-score"]')
     };
 
     const DIFFICULTIES = {
@@ -364,6 +365,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function gameOver() {
             clearRound();
+            updateOutput('final-score', score);
             section.hidden = true;
             SECTIONS.fin.hidden = false;
         }
@@ -402,7 +404,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateOutput(name, value) {
-        OUTPUTS[name].value = value;
+        try {
+            OUTPUTS[name].value = value;
+        }
+        catch (e) {
+            console.error(e);
+        }
     }
 
     function displayModal(name) {
