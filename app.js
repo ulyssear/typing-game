@@ -278,9 +278,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const input = section.querySelector('input[name="user-word"]');
 
         // We set to input.value but this should be an empty string
-        let word_typed = input.value;
+        let word_typed = input.value, previous_word_typed = '';
+
+        let ctrl_key_pressed = false;
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Control') ctrl_key_pressed = true;
+        });
+
+        window.addEventListener('keyup', function(e) {
+            if (e.key === 'Control') ctrl_key_pressed = false;
+        });
+
+
 
         input.addEventListener('input', function() {
+            if (ctrl_key_pressed) {
+                input.value = previous_word_typed;
+                return;
+            }
+
+            previous_word_typed = word_typed;
             word_typed = input.value;
 
             // Remove all accents of word
