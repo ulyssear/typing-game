@@ -10,3 +10,16 @@ ul, ol {
 [hidden] {
     display: none!important;
 }
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table td, table th {
+    padding: 0;
+}
+
+table > thead > tr > th {
+    text-align: left;
+}

@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const SECTIONS = {
         accueil: document.querySelector('section[aria-labelledby="accueil"]'),
         jouer: document.querySelector('section[aria-labelledby="jouer"]'),
-        fin: document.querySelector('section[aria-labelledby="fin"]')
+        fin: document.querySelector('section[aria-labelledby="fin"]'),
+        history: document.querySelector('section[aria-labelledby="history"]'),
     }
 
     const DIALOGS = {
@@ -50,6 +51,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const callbacks = {
             jouer: () => {
                 displayModal('select-difficulty');
+            },
+            history: () => {
+                loadScores();
+                SECTIONS.history.hidden = false;
+                SECTIONS.accueil.hidden = true;
             },
             default: () => {
                 // console.log('default');
@@ -417,5 +423,92 @@ document.addEventListener('DOMContentLoaded', function() {
         dialog.style.top = (window.innerHeight - dialog.offsetHeight) / 2.5 + 'px';
         dialog.style.left = (window.innerWidth - dialog.offsetWidth) / 2.5 + 'px';
         dialog.showModal();
+    }
+
+    function connectDatabase() {
+        const request = indexedDB.open('typing-game', 1);
+
+        request.onerror = function(e) {
+            console.error(e);
+        };
+
+        request.onsuccess = function(e) {
+            globals.database = e.target.result;
+        };
+    }
+
+    function saveScore({
+        difficulty,
+        time,
+        date,
+        score
+    }) {
+        const transaction = globals.database.transaction(['scores'], 'readwrite');
+        const store = transaction.objectStore('scores');
+        const request = store.add({
+            difficulty,
+            time,
+            date,
+            score
+        });
+
+        request.onsuccess = function(e) {
+            console.log('Score saved');
+        };
+
+        request.onerror = function(e) {
+            console.error(e);
+        };
+    }
+
+    function getScores() {
+        const transaction = globals.database.transaction(['scores'], 'readonly');
+        const store = transaction.objectStore('scores');
+        const request = store.getAll();
+
+        request.onsuccess = function(e) {
+            const {result: scores} = e.target;
+            displayScores(scores);
+        };
+
+        request.onerror = function(e) {
+            console.error(e);
+        };
+    }
+    
+    function disconnectDatabase() {
+        globals.database.close();
+    }
+
+    function loadScores() {
+        connectDatabase();
+        getScores();
+        disconnectDatabase();
+    }
+
+    function displayScores(scores) {
+        const {history: section} = SECTIONS;
+        const table = section.querySelector('table');
+        const tbody = table.querySelector('tbody');
+        for (let i = 0; i < scores.length; i++) {
+            const score = scores[i];
+            const element = (function({
+                difficulty,
+                time,
+                date,
+                score
+            }) {
+                const html = (new DOMParser).parseFromString(`
+                    <tr>
+                        <td>${difficulty}</td>
+                        <td>${date}</td>
+                        <td>${time}</td>
+                        <td>${score}</td>
+                    </tr>
+                `, 'text/html');
+                return html.body.firstElementChild;
+            })(score);
+            tbody.appendChild(element);
+        }
     }
 });

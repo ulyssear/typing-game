@@ -23,6 +23,7 @@
             <nav>
                 <ul>
                     <li><a href="javascript:void(0)" aria-labelledby="jouer">Jouer</a></li>
+                    <li><a href="javascript:void(0)" aria-labelledby="history">Historique</a></li>
                 </ul>
             </nav>
         </section>
@@ -65,6 +66,28 @@
 
         <section aria-labelledby="stats" hidden>
             <h2 id="stats">Statistiques</h2>
+        </section>
+
+        <section aria-labelledby="history" hidden>
+            <h2 id="history">Historique</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Difficulté</th>
+                        <th>Date</th>
+                        <th>Temps</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Facile</td>
+                        <td>2021-09-01</td>
+                        <td>30'</td>
+                        <td>100</td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
     </main>
 
@@ -112,7 +135,7 @@
                     </ul>
                 </nav>
                 <label>
-                    <span>Temps au démmarage</span>
+                    <span>Temps de départ</span>
                     <input type="number" name="start-time" value="16" min="1" max="60">
                 </label>
                 <label>
