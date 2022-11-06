@@ -46,6 +46,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    const DBOpenRequest = indexedDB.open('typing-game', 1);
+
+    DBOpenRequest.onerror = function(event) {
+        console.error('Erreur lors de l\'ouverture de la base de données');
+    };
+
+    DBOpenRequest.onsuccess = function(event) {
+        globals.db = DBOpenRequest.result;
+    };
+
+    DBOpenRequest.onupgradeneeded = function(event) {
+        const db = event.target.result;
+        const objectStore = db.createObjectStore('scores', { keyPath: 'id', autoIncrement: true });
+        objectStore.createIndex('difficulty', 'difficulty', { unique: false });
+        objectStore.createIndex('score', 'score', { unique: false });
+        objectStore.createIndex('date', 'date', { unique: false });
+        objectStore.createIndex('time', 'time', { unique: false });
+    };
+
     // Home events
     (function() {
         const callbacks = {
@@ -53,7 +72,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 displayModal('select-difficulty');
             },
             history: () => {
+                console.log('before')
                 loadScores();
+                console.log('after')
                 SECTIONS.history.hidden = false;
                 SECTIONS.accueil.hidden = true;
             },
@@ -259,6 +280,12 @@ document.addEventListener('DOMContentLoaded', function() {
         let score = 0;
         let level = 1;
         
+        let difficulty = {
+            'start-time': startTime,
+            'min-time': minTime,
+            'words-per-level': wordsPerLevel
+        }; 
+
         let time = startTime;
 
         let words = [];
@@ -353,6 +380,7 @@ document.addEventListener('DOMContentLoaded', function() {
             score++;
             if (score % wordsPerLevel === 0) {
                 level++;
+
                 time = Math.max(time - 1, minTime);
                 time_remaining = time;
                 performAnimation('level-up');
@@ -371,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function gameOver() {
             clearRound();
+            saveScore({
+                difficulty,
+                time,
+                score
+            })
             updateOutput('final-score', score);
             section.hidden = true;
             SECTIONS.fin.hidden = false;
@@ -406,7 +439,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 1000);
             }
         }
-        
     }
 
     function updateOutput(name, value) {
@@ -425,65 +457,34 @@ document.addEventListener('DOMContentLoaded', function() {
         dialog.showModal();
     }
 
-    function connectDatabase() {
-        const request = indexedDB.open('typing-game', 1);
-
-        request.onerror = function(e) {
-            console.error(e);
-        };
-
-        request.onsuccess = function(e) {
-            globals.database = e.target.result;
-        };
-    }
-
     function saveScore({
         difficulty,
         time,
-        date,
         score
     }) {
-        const transaction = globals.database.transaction(['scores'], 'readwrite');
+        // save score to indexedDB globals.db
+        const transaction = globals.db.transaction('scores', 'readwrite');
         const store = transaction.objectStore('scores');
-        const request = store.add({
+        store.add({
             difficulty,
             time,
-            date,
-            score
+            score,
+            date: new Date()
         });
 
-        request.onsuccess = function(e) {
-            console.log('Score saved');
+        transaction.oncomplete = function() {
+            console.log('Transaction completed: database modification finished.');
         };
 
-        request.onerror = function(e) {
-            console.error(e);
-        };
-    }
-
-    function getScores() {
-        const transaction = globals.database.transaction(['scores'], 'readonly');
-        const store = transaction.objectStore('scores');
-        const request = store.getAll();
-
-        request.onsuccess = function(e) {
-            const {result: scores} = e.target;
-            displayScores(scores);
-        };
-
-        request.onerror = function(e) {
-            console.error(e);
+        transaction.onerror = function() {
+            console.log('Transaction not opened due to error: ' + transaction.error);
         };
     }
-    
-    function disconnectDatabase() {
-        globals.database.close();
+
+    function retrieveScores() {
     }
 
-    function loadScores() {
-        connectDatabase();
-        getScores();
-        disconnectDatabase();
+    async function loadScores() {
     }
 
     function displayScores(scores) {
