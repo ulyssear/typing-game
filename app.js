@@ -87,9 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 displayModal('select-difficulty');
             },
             history: () => {
-                console.log('before')
                 loadScores();
-                console.log('after')
                 SECTIONS.history.hidden = false;
                 SECTIONS.accueil.hidden = true;
             },
@@ -260,12 +258,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const links = SECTIONS.fin.querySelectorAll('nav > ul > li > a');
         const callbacks = {
             quit: () => {
-                // console.log('quitter');
                 SECTIONS.fin.hidden = true;
                 SECTIONS.accueil.hidden = false;
             },
             replay: () => {
-                // console.log('replay');
                 SECTIONS.fin.hidden = true;
                 SECTIONS.accueil.hidden = false;
                 displayModal('select-difficulty');
@@ -512,7 +508,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         transaction.oncomplete = function() {
-            console.log('Transaction completed: database modification finished.');
+            console.log('Transaction completed: scores loaded.');
         }
 
         transaction.onerror = function() {
