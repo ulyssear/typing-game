@@ -104,7 +104,8 @@ body > :where(header,footer) {
 section[aria-labelledby] {
     background: #FFF;
     aspect-ratio: 16/9;
-    width: 50%;
+    max-height: 55vh;
+    height: 100%;
     position: absolute;
     inset: 50%;
     transform: translate3d(-50%, -50%, 0);
@@ -113,6 +114,7 @@ section[aria-labelledby] {
     justify-content: center;
     padding: 4vh 3vw;
     border: 1px solid #000;
+    overflow-y: auto;
 }
 
 section[aria-labelledby="accueil"] {
@@ -219,4 +221,27 @@ dialog.confirm-quit > section > nav > ul {
 dialog.confirm-quit > section > nav > ul > li > button {
     padding: .5rem 1rem;
     cursor: pointer;
+}
+
+.tooltip {
+    font-size: 70%;
+    position: absolute;
+    background: #000;
+    color: #fff;
+    width: max-content;
+    padding: .5rem 1rem;
+    top: 50%;
+    left: calc(100% + .5vw);
+    transform: translate3d(0, -50%, 0);
+}
+
+table > tbody > tr > td:first-child > a {
+    position: relative;
+}
+
+section[aria-labelledby="history"] {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    row-gap: 5vh;
 }

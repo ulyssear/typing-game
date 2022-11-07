@@ -65,6 +65,21 @@ document.addEventListener('DOMContentLoaded', function() {
         objectStore.createIndex('time', 'time', { unique: false });
     };
 
+    // Common events 
+    (function(){
+        // retrieve header of sections with aria-labelledby
+        const headers = document.querySelectorAll('section[aria-labelledby] > header');
+        for (let i = 0; i < headers.length; i++) {
+            headers[i].addEventListener('click', function({target}) {
+                // retrieve section closest
+                const section = target.closest('section');
+                const ariaLabelledBy = section.getAttribute('aria-labelledby');
+                SECTIONS[ariaLabelledBy].hidden = true;
+                SECTIONS.accueil.hidden = false;
+            });
+        }
+    })();
+
     // Home events
     (function() {
         const callbacks = {
@@ -279,6 +294,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let word;
         let score = 0;
         let level = 1;
+
+        let start_at = Date.now();
         
         let difficulty = {
             'start-time': startTime,
@@ -399,9 +416,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function gameOver() {
             clearRound();
+
+            let ends_at = Date.now();
+
+            let time_played = Math.floor((ends_at - start_at) / 1000);
+
             saveScore({
                 difficulty,
-                time,
+                time: time_played,
                 score
             })
             updateOutput('final-score', score);
@@ -462,7 +484,6 @@ document.addEventListener('DOMContentLoaded', function() {
         time,
         score
     }) {
-        // save score to indexedDB globals.db
         const transaction = globals.db.transaction('scores', 'readwrite');
         const store = transaction.objectStore('scores');
         store.add({
@@ -481,17 +502,30 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    function retrieveScores() {
-    }
-
     async function loadScores() {
+        const transaction = globals.db.transaction('scores', 'readwrite');
+        const store = transaction.objectStore('scores');
+        const request = store.getAll();
+
+        request.onsuccess = function() {
+            displayScores(request.result);
+        }
+
+        transaction.oncomplete = function() {
+            console.log('Transaction completed: database modification finished.');
+        }
+
+        transaction.onerror = function() {
+            console.log('Transaction not opened due to error: ' + transaction.error);
+        }
     }
 
     function displayScores(scores) {
         const {history: section} = SECTIONS;
         const table = section.querySelector('table');
         const tbody = table.querySelector('tbody');
-        for (let i = 0; i < scores.length; i++) {
+        tbody.innerHTML = '';
+        for (let i = scores.length; i--;) {
             const score = scores[i];
             const element = (function({
                 difficulty,
@@ -499,17 +533,61 @@ document.addEventListener('DOMContentLoaded', function() {
                 date,
                 score
             }) {
-                const html = (new DOMParser).parseFromString(`
-                    <tr>
-                        <td>${difficulty}</td>
-                        <td>${date}</td>
-                        <td>${time}</td>
-                        <td>${score}</td>
-                    </tr>
-                `, 'text/html');
-                return html.body.firstElementChild;
+                date = date.toISOString()
+                date = date.replace('T', ' ').replace('Z', '')
+                    .substring(0, date.lastIndexOf('.'));
+
+                time = Math.floor(time / 60) + "' " + time % 60 + '"';
+
+                const html = `<tr>
+                    <td data-value='${JSON.stringify(difficulty)}'>
+                        <a href="javascript:void(0)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                            </svg>
+                        </a>
+                    </td>
+                    <td>${date}</td>
+                    <td>${time}</td>
+                    <td>${score}</td>
+                </tr>`;
+                const element = parseHtmlToElement(html);
+
+                const difficulty_icon_link = element.querySelector('td:first-child > a');
+                const tooltip = (function() {
+                    const html = `<div class="tooltip" hidden>
+                        <p>
+                            <span>Start time :</span>
+                            <span>${difficulty['start-time']}</span>
+                        </p>
+                        <p>
+                            <span>Min. time :</span>
+                            <span>${difficulty['min-time']}</span>
+                        </p>
+                        <p>
+                            <span>Words per level :</span>
+                            <span>${difficulty['words-per-level']}</span>
+                        </p>
+                    </div>`;
+                    return parseHtmlToElement(html);
+                })();
+                difficulty_icon_link.addEventListener('mouseenter', () => {  
+                    tooltip.hidden = false;
+                });
+                difficulty_icon_link.addEventListener('mouseleave', () => {
+                    tooltip.hidden = true;
+                });
+                difficulty_icon_link.appendChild(tooltip);
+                return element;
             })(score);
             tbody.appendChild(element);
         }
+    }
+
+    function parseHtmlToElement(html) {
+        const template = document.createElement('template');
+        template.innerHTML = html;
+        return template.content.firstElementChild.cloneNode(true);
     }
 });
