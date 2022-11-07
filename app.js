@@ -67,11 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Common events 
     (function(){
-        // retrieve header of sections with aria-labelledby
         const headers = document.querySelectorAll('section[aria-labelledby] > header');
         for (let i = 0; i < headers.length; i++) {
             headers[i].addEventListener('click', function({target}) {
-                // retrieve section closest
                 const section = target.closest('section');
                 const ariaLabelledBy = section.getAttribute('aria-labelledby');
                 SECTIONS[ariaLabelledBy].hidden = true;
