@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let interval_time_remaining;
 
-        let paused = false;
+        let paused = false, playing = false;
 
         await fetch('./text_1.txt')
             .then(response => response.text())
@@ -329,10 +329,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let ctrl_key_pressed = false;
         window.addEventListener('keydown', function(e) {
+            if (!playing) return;
             if (e.key === 'Control') ctrl_key_pressed = true;
         });
 
         window.addEventListener('keyup', function(e) {
+            if (!playing) return;
             if (e.key === 'Control') ctrl_key_pressed = false;
             if (e.key === 'Escape') {
                 paused = !paused;
@@ -366,6 +368,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        playing = true;
         round();
         input.focus();
 
@@ -421,6 +424,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function gameOver() {
             clearRound();
+
+            playing = false;
 
             let ends_at = Date.now();
 
