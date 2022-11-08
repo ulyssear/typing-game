@@ -3,6 +3,7 @@ dialog.select-difficulty > section > form {
     flex-direction: row;
     column-gap: 1vw;
     padding-top: .25rem;
+    font-size: 80%;
 }
 
 dialog.select-difficulty > section > form > nav > ul {
