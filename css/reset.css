@@ -23,3 +23,25 @@ table td, table th {
 table > thead > tr > th {
     text-align: left;
 }
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+}
+
+dialog {
+    border: 0;
+}
+
+dialog > section {
+    font-size: 85%;
+}
+
+button {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    /* padding: 0; */
+}

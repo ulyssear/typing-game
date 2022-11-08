@@ -303,6 +303,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let interval_time_remaining;
 
+        let paused = false;
+
         await fetch('./text_1.txt')
             .then(response => response.text())
             .then(text => {
@@ -332,12 +334,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         window.addEventListener('keyup', function(e) {
             if (e.key === 'Control') ctrl_key_pressed = false;
+            if (e.key === 'Escape') {
+                paused = !paused;
+                if (!paused) {
+                    DIALOGS['confirm-quit'].close();
+                    return;
+                }
+                displayModal('confirm-quit');
+            }
         });
 
 
 
         input.addEventListener('input', function() {
-            if (ctrl_key_pressed) {
+            if (ctrl_key_pressed || paused) {
                 input.value = previous_word_typed;
                 return;
             }
@@ -372,6 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateOutput('time-remaining', time);
 
             interval_time_remaining = setInterval(function() {
+                if (paused) return;
                 if (--time_remaining < 0) {
                     gameOver();
                 }

@@ -1,0 +1,117 @@
+@keyframes animation-plus {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+}
+
+:root{
+    --font-size-base: 1.15vmax;
+    --font-size-title: 3vmax;
+    --font-size-subtitle: 2vmax;
+    --font-size-modal-title: 1.25vmax;
+}
+
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+    font-size: var(--font-size-title);
+}
+
+h2 {
+    font-size: var(--font-size-subtitle);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    font-size: var(--font-size-base);
+    overflow: hidden;
+}
+
+table > tbody > tr > td:first-child > a {
+    position: relative;
+}
+
+section[aria-labelledby] {
+    aspect-ratio: 16/9;
+    height: 100%;
+    position: absolute;
+    inset: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    overflow-y: auto;
+}
+
+.animation-plus {
+    position: absolute;
+    font-size: 60%;
+    animation: animation-plus 1s ease-in-out;
+}
+
+.tooltip {
+    font-size: 70%;
+    position: absolute;
+    background: #000;
+    color: #fff;
+    width: max-content;
+    top: 50%;
+    left: calc(100% + .5vw);
+    transform: translate3d(0, -50%, 0);
+    padding: .2rem .5rem .2rem .2rem;
+}
+
+/* Dialog */
+
+dialog {
+    position: absolute;
+    width: 450px;
+    user-select: none;
+    overflow: hidden;
+}
+
+dialog > header {
+    height: 4vh;
+    padding-left: .5vw;
+    user-select: none;
+    display: flex;
+    place-items: center;
+    justify-content: space-between;
+}
+
+dialog > header > nav {
+    display: flex;
+    height: 100%;
+}
+
+dialog > header > nav > button {
+    aspect-ratio: 1/1;
+}
+
+dialog > section {
+    padding: 0 1rem;
+}
+
+dialog > header > h2 {
+    font-size: var(--font-size-modal-title);
+    padding: .5rem;
+    font-weight: 300;
+}
+
+dialog > section > nav > ul {
+    display: flex;
+    flex-direction: row;
+}
+
+dialog > section > form > button {
+    padding: .5rem;
+}
+
+/* */

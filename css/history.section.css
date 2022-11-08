@@ -1,0 +1,16 @@
+section[aria-labelledby="history"] {
+    display: grid;
+    place-items: flex-start;
+    row-gap: 5vh;
+    place-content: center;
+}
+
+section[aria-labelledby="history"] > header {
+    width: 64vw;
+    margin-top: 3vmax;
+}
+
+section[aria-labelledby="history"] > table {
+    width: 64vw;
+    margin-bottom: 2vmax;
+}

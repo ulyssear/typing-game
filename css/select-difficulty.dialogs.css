@@ -1,0 +1,52 @@
+dialog.select-difficulty > section > form {
+    display: flex;
+    flex-direction: row;
+    column-gap: 1vw;
+    padding-top: .25rem;
+}
+
+dialog.select-difficulty > section > form > nav > ul {
+    display: flex;
+    flex-direction: column;
+}
+
+dialog.select-difficulty > section > form > nav > ul > li {
+    flex: 1;
+}
+
+dialog.select-difficulty > section > form > nav > ul > li > label > input {
+    pointer-events: none;
+    display: none;
+}
+
+dialog.select-difficulty > section > form > nav > ul > li > label {
+    cursor: pointer;
+    width: 100%;
+}
+
+dialog.select-difficulty > section > form > nav > ul > li > label > button {
+    pointer-events: none;
+    padding: .25rem .75rem;
+    width: 100%;
+}
+
+dialog.select-difficulty > section > form > section {
+    flex: 1;
+    padding: 0 0 1rem 0;
+    display: grid;
+    row-gap: .25rem;
+}
+
+dialog.select-difficulty > section > form > section > label {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    column-gap: .5rem;
+}
+
+dialog.select-difficulty > section > form > section > label > input {
+    width: 90%;
+}
+
+dialog.select-difficulty > section > form > section > button {
+    padding: .25rem;
+}

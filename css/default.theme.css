@@ -1,0 +1,39 @@
+:root {
+    --color-primary: #fff;
+    --color-secondary: #0090C1;
+}
+
+html, body {
+    background: var(--color-primary);
+    color: black;
+}
+
+section[aria-labelledby] {
+    background: var(--color-primary);
+    color: inherit;
+}
+
+a[href] {
+    color: #0009;
+}
+
+dialog {
+    background: whitesmoke;
+    color: black;
+    border-radius: .5rem;
+    box-shadow: 0 0 1rem #0003;
+}
+
+dialog > section > form > nav > ul > li > label > button {
+    background: whitesmoke;
+    color: black;
+}
+
+dialog > section > form > nav > ul > li > label > input[type="radio"]:checked + button {
+    background: #CCC;
+}
+
+dialog > section > form > section > button {
+    background: var(--color-secondary);
+    color: white;
+}

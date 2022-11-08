@@ -1,0 +1,23 @@
+section[aria-labelledby="accueil"] {
+    row-gap: 8vh;
+    place-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+section[aria-labelledby="accueil"] > aside {
+    display: grid;
+    place-items: center;
+    row-gap: 1rem;
+}
+
+section[aria-labelledby="accueil"] > aside > h2 {
+    font-size: var(--font-size-title);
+}
+
+section[aria-labelledby="accueil"] > nav > ul {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+    font-size: var(--font-size-subtitle);
+}

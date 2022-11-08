@@ -1,0 +1,10 @@
+section[aria-labelledby="fin"] {
+    row-gap: 3vh;
+    display: grid;
+    place-content: center;
+}
+
+section[aria-labelledby="fin"] > nav > ul {
+    display: flex;
+    column-gap: 2vw;
+}

@@ -1,0 +1,63 @@
+section[aria-labelledby="jouer"] {
+    row-gap: 3vh;
+    user-select: none;
+    display: grid;
+    place-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+section[aria-labelledby="jouer"] > section button[data-name="quit-game"] {
+    --red: #f00;
+    background: #fff;
+    border: 1px solid var(--red);
+    color: var(--red);
+    padding: .5rem 1rem;
+    border-radius: .5rem;
+    cursor: pointer;
+    position: absolute;
+    right: 3vw;
+    display: none;
+}
+
+section[aria-labelledby="jouer"] > section {
+    display: grid;
+    row-gap: 10vh;
+}
+
+section[aria-labelledby="jouer"] > section > p > output[name="word"] {
+    font-size: var(--font-size-subtitle);
+    line-height: 3;
+}
+
+section[aria-labelledby="jouer"] > section > input {
+    width: 64ch;
+    height: 5vh;
+    border: none;
+    border-bottom: 1px solid #000;
+    background: transparent;
+    font-size: var(--font-size-base);
+}
+
+section[aria-labelledby="jouer"] > aside > p {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: .5rem;
+    color: grey;
+}
+
+section[aria-labelledby="jouer"] > aside:last-of-type {
+    width: 64ch;
+    display: grid;
+    place-items: center;
+    place-content: space-between;
+    grid-template-columns: repeat(3, auto);
+    column-gap: 5vw;
+
+}
+
+section[aria-labelledby="jouer"] > aside:last-of-type > p {
+    display: flex;
+    column-gap: .35rem;
+}
