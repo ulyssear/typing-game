@@ -2,6 +2,7 @@ section[aria-labelledby="jouer"] {
     row-gap: 3vh;
     user-select: none;
     display: grid;
+    place-items: flex-start;
     place-content: center;
     margin: 0;
     padding: 0;

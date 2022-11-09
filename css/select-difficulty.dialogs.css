@@ -3,7 +3,6 @@ dialog.select-difficulty > section > form {
     flex-direction: row;
     column-gap: 1vw;
     padding-top: .25rem;
-    font-size: 80%;
 }
 
 dialog.select-difficulty > section > form > nav > ul {
@@ -29,6 +28,7 @@ dialog.select-difficulty > section > form > nav > ul > li > label > button {
     pointer-events: none;
     padding: .25rem .75rem;
     width: 100%;
+    font-size: 100%;
 }
 
 dialog.select-difficulty > section > form > section {
@@ -42,12 +42,15 @@ dialog.select-difficulty > section > form > section > label {
     display: grid;
     grid-template-columns: 1fr 1fr auto;
     column-gap: .5rem;
+    white-space: nowrap;
 }
 
 dialog.select-difficulty > section > form > section > label > input {
     width: 90%;
+    font-size: 100%;
 }
 
 dialog.select-difficulty > section > form > section > button {
     padding: .25rem;
+    font-size: 100%;
 }

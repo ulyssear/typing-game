@@ -14,6 +14,7 @@
     --font-size-title: 3vmax;
     --font-size-subtitle: 2vmax;
     --font-size-modal-title: 1.25vmax;
+    --font-size-modal-content: .8vmax;
 }
 
 html {
@@ -45,8 +46,7 @@ section[aria-labelledby] {
     aspect-ratio: 16/9;
     height: 100%;
     position: absolute;
-    inset: 50%;
-    transform: translate3d(-50%, -50%, 0);
+    top: 0;
     overflow-y: auto;
 }
 
@@ -72,7 +72,7 @@ section[aria-labelledby] {
 
 dialog {
     position: absolute;
-    width: 450px;
+    width: 420px;
     user-select: none;
     overflow: hidden;
 }
@@ -97,6 +97,7 @@ dialog > header > nav > button {
 
 dialog > section {
     padding: 0 1rem;
+    font-size: var(--font-size-modal-content);
 }
 
 dialog > header > h2 {

@@ -76,6 +76,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 SECTIONS.accueil.hidden = false;
             });
         }
+
+        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
     })();
 
     // Home events
@@ -288,22 +291,19 @@ document.addEventListener('DOMContentLoaded', function() {
         let word;
         let score = 0;
         let level = 1;
-
         let start_at = Date.now();
-        
         let difficulty = {
             'start-time': startTime,
             'min-time': minTime,
             'words-per-level': wordsPerLevel
         }; 
-
         let time = startTime;
-
         let words = [];
-
         let interval_time_remaining;
-
-        let paused = false, playing = false;
+        
+        globals.paused = false;
+        
+        globals.playing = false;
 
         await fetch('./text_1.txt')
             .then(response => response.text())
@@ -327,29 +327,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // We set to input.value but this should be an empty string
         let word_typed = input.value, previous_word_typed = '';
 
-        let ctrl_key_pressed = false;
-        window.addEventListener('keydown', function(e) {
-            if (!playing) return;
-            if (e.key === 'Control') ctrl_key_pressed = true;
-        });
-
-        window.addEventListener('keyup', function(e) {
-            if (!playing) return;
-            if (e.key === 'Control') ctrl_key_pressed = false;
-            if (e.key === 'Escape') {
-                paused = !paused;
-                if (!paused) {
-                    DIALOGS['confirm-quit'].close();
-                    return;
-                }
-                displayModal('confirm-quit');
-            }
-        });
-
-
+        globals.ctrl_key_pressed = false;
 
         input.addEventListener('input', function() {
-            if (ctrl_key_pressed || paused) {
+            if (globals.ctrl_key_pressed) {
                 input.value = previous_word_typed;
                 return;
             }
@@ -368,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        playing = true;
+        globals.playing = true;
         round();
         input.focus();
 
@@ -385,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateOutput('time-remaining', time);
 
             interval_time_remaining = setInterval(function() {
-                if (paused) return;
+                if (globals.paused) return;
                 if (--time_remaining < 0) {
                     gameOver();
                 }
@@ -425,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function() {
         function gameOver() {
             clearRound();
 
-            playing = false;
+            globals.playing = false;
 
             let ends_at = Date.now();
 
@@ -600,4 +581,34 @@ document.addEventListener('DOMContentLoaded', function() {
         template.innerHTML = html;
         return template.content.firstElementChild.cloneNode(true);
     }
+
+    function handleKeyUp(event) {
+        // event.preventDefault();
+        const {key} = event;
+        if (!globals.playing) {
+            if (key === 'Escape') {
+                const currentSection = document.querySelector('main > section:not([hidden])');
+                currentSection.hidden = true;
+                SECTIONS.accueil.hidden = false;
+            }
+            return;
+        }
+        if (key === 'Control') globals.ctrl_key_pressed = true;
+        if (key === 'Escape') {
+            globals.paused = !globals.paused;
+            if (!globals.paused) {
+                if (!DIALOGS['confirm-quit'].open) return;
+                DIALOGS['confirm-quit'].close();
+                return;
+            }
+            displayModal('confirm-quit');
+        }
+    }
+
+    function handleKeyDown(event) {
+        // event.preventDefault();
+        const {key} = event;
+        if (!globals.playing) return;
+        if (key === 'Control') globals.ctrl_key_pressed = false;
+    }   
 });
