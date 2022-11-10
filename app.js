@@ -449,7 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 output.parentElement.insertBefore(span, output);
                 setTimeout(() => {
                     span.remove();
-                }, 1000);
+                }, 980);
             }
         }
     }
