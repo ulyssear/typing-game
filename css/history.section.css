@@ -7,7 +7,6 @@ section[aria-labelledby="history"] {
 
 section[aria-labelledby="history"] > header {
     width: 64vw;
-    margin-top: 35vmax;
 }
 
 section[aria-labelledby="history"] > section > table {
