@@ -1,12 +1,12 @@
 section[aria-labelledby="history"] {
     display: grid;
-    place-items: flex-start;
     row-gap: 5vh;
-    place-content: center;
+    justify-content: center;
 }
 
 section[aria-labelledby="history"] > header {
     width: 64vw;
+    margin-top: 5vh;
 }
 
 section[aria-labelledby="history"] > section > table {

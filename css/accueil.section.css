@@ -2,7 +2,7 @@ section[aria-labelledby="accueil"] {
     row-gap: 8vh;
     place-items: center;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, auto);
 }
 
 section[aria-labelledby="accueil"] > aside {

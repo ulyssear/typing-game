@@ -15,12 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const OUTPUTS = {
-        'score': document.querySelector('output[name="score"]'),
-        'time': document.querySelector('output[name="time"]'),
-        'time-remaining': document.querySelector('output[name="time-remaining"]'),
-        'level': document.querySelector('output[name="level"]'),
-        'word': document.querySelector('output[name="word"]'),
-        'final-score': document.querySelector('output[name="final-score"]')
+        'score': document.querySelectorAll('output[name="score"]'),
+        'time': document.querySelectorAll('output[name="time"]'),
+        'time-remaining': document.querySelectorAll('output[name="time-remaining"]'),
+        'level': document.querySelectorAll('output[name="level"]'),
+        'word': document.querySelectorAll('output[name="word"]'),
+        'final-score': document.querySelectorAll('output[name="final-score"]')
     };
 
     const DIFFICULTIES = {
@@ -300,6 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let time = startTime;
         let words = [];
         let interval_time_remaining;
+        let previous_progress, progress = 1;
         
         globals.paused = false;
         
@@ -324,8 +325,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const section = SECTIONS.jouer;
         const input = section.querySelector('input[name="user-word"]');
 
+        const asides = section.querySelectorAll('aside[role="status"]');
+
         // We set to input.value but this should be an empty string
-        let word_typed = input.value, previous_word_typed = '';
+        let word_typed = input.value.trim(), previous_word_typed = '';
 
         globals.ctrl_key_pressed = false;
 
@@ -365,13 +368,37 @@ document.addEventListener('DOMContentLoaded', function() {
             updateOutput('time', time);
             updateOutput('time-remaining', time);
 
+            
+            progress = time_remaining / time;
+            for (let i = 0; i < asides.length; i++) {
+                const aside = asides[i];
+                aside.style.setProperty('--progress', progress);
+            }
+
             interval_time_remaining = setInterval(function() {
+                interval()
+            }, 1000);
+            function interval() {
                 if (globals.paused) return;
+
                 if (--time_remaining < 0) {
                     gameOver();
                 }
+                progress = time_remaining / time;
+                for (let i = 0; i < asides.length; i++) {
+                    const aside = asides[i];
+                    if (!aside.style.transition || aside.style.transition === 'none') {
+                        aside.style.transition = 'width 1s linear';
+                    }
+                    if (previous_progress !== progress) {
+                        aside.style.setProperty('--progress', progress);
+                    }
+                }
+                if (previous_progress !== progress) {
+                    previous_progress = progress;
+                }
                 updateOutput('time-remaining', time_remaining);
-            }, 1000);
+            }
         }
 
         function getRandomWord() {
@@ -386,7 +413,6 @@ document.addEventListener('DOMContentLoaded', function() {
             score++;
             if (score % wordsPerLevel === 0) {
                 level++;
-
                 time = Math.max(time - 1, minTime);
                 time_remaining = time;
                 performAnimation('level-up');
@@ -394,6 +420,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             performAnimation('score-up');
             updateOutput('score', score);
+            
+            for (let i = 0; i < asides.length; i++) {
+                const aside = asides[i];
+                aside.style.transition = '0';
+                aside.style.setProperty('--progress', 1);
+            }
+            previous_progress = 1;
+        
             clearRound();
             round();
         }
@@ -440,23 +474,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error(e);
             }
 
-            function addUpAnimation(output) {
-                const span = document.createElement('span');
-                span.textContent = '+1';
-                span.style.top = output.offsetTop - 3 + 'px';
-                span.style.left = output.offsetLeft + output.offsetWidth + 3 + 'px';
-                span.classList.add('animation-plus');
-                output.parentElement.insertBefore(span, output);
-                setTimeout(() => {
-                    span.remove();
-                }, 980);
+            function addUpAnimation(outputs) {
+                for (let i = 0; i < outputs.length; i++) {
+                    const output = outputs[i];
+                    const span = document.createElement('span');
+                    span.textContent = '+1';
+                    span.style.top = output.offsetTop - 3 + 'px';
+                    span.style.left = output.offsetLeft + output.offsetWidth + 3 + 'px';
+                    span.classList.add('animation-plus');
+                        output.parentElement.insertBefore(span, output);
+                    
+                    setTimeout(() => {
+                        span.remove();
+                    }, 980);
+                }
             }
         }
     }
 
     function updateOutput(name, value) {
         try {
-            OUTPUTS[name].value = value;
+            for (let i = 0; i < OUTPUTS[name].length; i++) {
+                OUTPUTS[name][i].value = value;
+            }
         }
         catch (e) {
             console.error(e);

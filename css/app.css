@@ -44,9 +44,12 @@ table > tbody > tr > td:first-child > a {
 
 section[aria-labelledby] {
     aspect-ratio: 16/9;
-    height: 100%;
+    height: 100vh;
     position: absolute;
     top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     overflow-y: auto;
 }
 
