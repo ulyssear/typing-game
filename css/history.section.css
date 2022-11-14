@@ -13,3 +13,7 @@ section[aria-labelledby="history"] > section > table {
     width: 64vw;
     margin-bottom: 2vmax;
 }
+
+section[aria-labelledby="history"] > section > table > thead > tr > th {
+    user-select: none;
+}

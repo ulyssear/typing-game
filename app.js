@@ -282,6 +282,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     })();
 
+    // History events
+    (function() {
+        const section = SECTIONS.history;
+        const table = section.querySelector('table');
+        const cells_header = table.querySelectorAll('thead > tr > th');
+        for (let i = 0; cells_header.length; i++) {
+            const cell = cells_header[i];
+            cell.addEventListener('click', function() {
+                let sort_order = 'asc';
+                if (cell.dataset.sort === 'asc') {
+                    sort_order = 'desc';
+                }
+                sortTable(table, i, sort_order);
+                cell.dataset.sort = sort_order;
+            });
+        }
+    })();
+
     async function startGame({
         'start-time': startTime = 32,
         'min-time': minTime = 4,
@@ -571,7 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 time = Math.floor(time / 60) + "' " + time % 60 + '"';
 
                 const html = `<tr>
-                    <td data-value='${JSON.stringify(difficulty)}'>
+                    <td data-value='${JSON.stringify(difficulty)}' data-col-value="${convertDifficultyToValue(difficulty)}">
                         <a href="javascript:void(0)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -579,9 +597,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             </svg>
                         </a>
                     </td>
-                    <td>${date}</td>
-                    <td>${time}</td>
-                    <td>${score}</td>
+                    <td data-col-value="${convertDateToValue(date)}">${date}</td>
+                    <td data-col-value="${convertTimeToValue(time)}">${time}</td>
+                    <td data-col-value="${score}">${score}</td>
                 </tr>`;
                 const element = parseHtmlToElement(html);
 
@@ -651,4 +669,25 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!globals.playing) return;
         if (key === 'Control') globals.ctrl_key_pressed = false;
     }   
+
+    function convertDifficultyToValue(difficulty) {
+        const {['start-time']: start_time, ['min-time']: min_time, ['words-per-level']: words_per_level} = difficulty;
+        return start_time + min_time + words_per_level;
+    }
+
+    function convertDateToValue(date) {
+        return new Date(date).getTime();
+    }
+
+    function convertTimeToValue(time) {
+        return +time.replace("'", '').replace('"', '');
+    }
+
+    function sortTable(table, col_index, asc = true) {
+        const thead = table.querySelector('thead');
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        const col_header = thead.querySelector(`th:nth-child(${col_index + 1})`);
+        // TODO
+    }
 });
