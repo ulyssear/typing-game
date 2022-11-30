@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
         jouer: document.querySelector('section[aria-labelledby="jouer"]'),
         fin: document.querySelector('section[aria-labelledby="fin"]'),
         history: document.querySelector('section[aria-labelledby="history"]'),
-    }
+    };
 
     const DIALOGS = {
         'select-difficulty': document.querySelector('dialog.select-difficulty'),
         'confirm-quit': document.querySelector('dialog.confirm-quit')
-    }
+    };
 
     const OUTPUTS = {
         'score': document.querySelectorAll('output[name="score"]'),
