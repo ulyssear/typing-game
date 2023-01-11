@@ -284,20 +284,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // History events
     (function() {
-        const section = SECTIONS.history;
-        const table = section.querySelector('table');
-        const cells_header = table.querySelectorAll('thead > tr > th');
-        for (let i = 0; cells_header.length; i++) {
-            const cell = cells_header[i];
-            cell.addEventListener('click', function() {
-                let sort_order = 'asc';
-                if (cell.dataset.sort === 'asc') {
-                    sort_order = 'desc';
-                }
-                sortTable(table, i, sort_order);
-                cell.dataset.sort = sort_order;
-            });
-        }
+        // const section = SECTIONS.history;
+        // const table = section.querySelector('table');
+        // const cells_header = table.querySelectorAll('thead > tr > th');
+        // for (let i = 0; cells_header.length; i++) {
+        //     const cell = cells_header[i];
+        //     cell.addEventListener('click', function() {
+        //         let sort_order = 'asc';
+        //         if (cell.dataset.sort === 'asc') {
+        //             sort_order = 'desc';
+        //         }
+        //         sortTable(table, i, sort_order);
+        //         cell.dataset.sort = sort_order;
+        //     });
+        // }
     })();
 
     async function startGame({
@@ -683,11 +683,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return +time.replace("'", '').replace('"', '');
     }
 
-    function sortTable(table, col_index, asc = true) {
-        const thead = table.querySelector('thead');
-        const tbody = table.querySelector('tbody');
-        const rows = Array.from(tbody.querySelectorAll('tr'));
-        const col_header = thead.querySelector(`th:nth-child(${col_index + 1})`);
-        // TODO
-    }
+    // function sortTable(table, col_index, asc = true) {
+    //     const thead = table.querySelector('thead');
+    //     const tbody = table.querySelector('tbody');
+    //     const rows = Array.from(tbody.querySelectorAll('tr'));
+    //     const col_header = thead.querySelector(`th:nth-child(${col_index + 1})`);
+    //     // TODO
+    // }
 });
