@@ -59,6 +59,7 @@ section[aria-labelledby] {
     animation: animation-plus 1s ease-in-out;
 }
 
+
 .tooltip {
     font-size: 70%;
     position: absolute;

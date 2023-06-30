@@ -66,8 +66,8 @@ section[aria-labelledby="jouer"] > aside[role="status"] > div > div {
     column-gap: 5vw;
     /* padding-block: .75rem;
     padding-inline: 1.25rem; */
-    overflow: hidden;
     white-space: nowrap;
+    overflow: hidden;
     width: 100%;
 }
 

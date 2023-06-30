@@ -401,6 +401,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (--time_remaining < 0) {
                     gameOver();
+                    return;
                 }
                 progress = time_remaining / time;
                 for (let i = 0; i < asides.length; i++) {
@@ -500,11 +501,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     span.style.top = output.offsetTop - 3 + 'px';
                     span.style.left = output.offsetLeft + output.offsetWidth + 3 + 'px';
                     span.classList.add('animation-plus');
-                        output.parentElement.insertBefore(span, output);
+                    output.parentElement.insertBefore(span, output);
                     
                     setTimeout(() => {
                         span.remove();
-                    }, 980);
+                    }, 900 + 500 * i);
                 }
             }
         }
