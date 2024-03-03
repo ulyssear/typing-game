@@ -8,8 +8,9 @@
     <title>Document</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/index.d.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;700;900&display=swap" rel="stylesheet" crossorigin loading="eager">
+    <!-- <link rel="stylesheet" href="css/index.d.css" loading="eager"> -->
+    <link rel="stylesheet" href="css/app.css" loading="eager">
     
     <script src="app.js"></script>
 </head>
@@ -18,17 +19,18 @@
         <h1 hidden>Typing game</h1>
 
         <section aria-labelledby="accueil">
-            <aside>
-                <h2 id="accueil">Typing game</h2>
-                <p>Fait par Ulysse ARNAUD</p>
-            </aside>
-            <nav>
-                <ul>
-                    <li><a href="javascript:void(0)" aria-labelledby="jouer">Jouer</a></li>
-                    <li><a href="javascript:void(0)" aria-labelledby="history">Historique</a></li>
-                    <li><a href="javascript:alert('Work in progress')" aria-labelledby="stats">Statistiques</a></li>
-                </ul>
-            </nav>
+            <section>
+                <aside>
+                    <h2 id="accueil">Typing game</h2>
+                </aside>
+                <nav>
+                    <ul>
+                        <li><a href="javascript:void(0)" aria-labelledby="jouer">Jouer</a></li>
+                        <li><a href="javascript:void(0)" aria-labelledby="history">Historique</a></li>
+                        <li><a href="javascript:alert('Work in progress')" aria-labelledby="stats">Statistiques</a></li>
+                    </ul>
+                </nav>
+            </section>
         </section>
 
         <section aria-labelledby="jouer" hidden>
@@ -122,9 +124,15 @@
         <header>
             <h2>Choisissez une difficulté</h2>
             <nav>
-                <button class="maximize" hidden>[]</button>
-                <button class="minimize">_</button>
-                <button class="close">X</button>
+                <button class="maximize" hidden>
+                    <img src="img/maximize.svg" alt="Maximize">
+                </button>
+                <button class="minimize">
+                    <img src="img/minimize.svg" alt="Minimize">
+                </button>
+                <button class="close">
+                    <img src="img/close.svg" alt="Close">
+                </button>
             </nav>
         </header>
         <section>
